@@ -1,48 +1,44 @@
-package bach.dev.data.impl;
+package bach.dev.data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 
-public class Order_itemImpl {
-	
+public class OrderItemImpl {
 	private Connection conn;
 	
-	public Order_itemImpl(Connection conn) {
+	public OrderItemImpl(Connection conn) {
 		super();
 		this.conn = conn;
 	}
-	//Thêm order_item mới
 	public boolean insert() {
         // TODO Auto-generated method stub
         String sql = "INSERT INTO ORDER_ITEMS(ID, QUANTITY, PRICE, ORDER_ID, PRODUCT_ID) VALUES(NULL, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1,"orderItem Quantity");
-            stmt.setDouble(2, "orderItem Price");
-            stmt.setInt(3, "orderItem OrderId");
-            stmt.setInt(4, "orderItem ProductId");
+            stmt.setInt(1,3);
+            stmt.setDouble(2, 180000);
+            stmt.setInt(3, 2);
+            stmt.setInt(4, 2);
             
             stmt.execute();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            
         }
         return false;
     }
-	//Cập nhật order_item
 	public boolean update() {
         // TODO Auto-generated method stub
         String sql = "UPDATE ORDER_ITEMS SET quantity = ?, price = ?, order_id = ?, product_id = ? WHERE id = ?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            stmt.setInt(1,"orderItem Quantity");
-            stmt.setDouble(2, "orderItem Price");
-            stmt.setInt(3, "orderItem OrderId");
-            stmt.setInt(4, "orderItem ProductId");
+            stmt.setInt(1,3);
+            stmt.setDouble(2, 150000);
+            stmt.setInt(3, 2);
+            stmt.setInt(4, 2);
+            stmt.setInt(5, 6);
             return stmt.execute();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -50,10 +46,9 @@ public class Order_itemImpl {
         }
         return false;
     }
-	//Xoá order_item
 	public boolean delete(int id) {
         // TODO Auto-generated method stub
-        String sql = "DELETE FROM ORDER-ITEMS WHERE ID = ?";
+        String sql = "DELETE FROM ORDER_ITEMS WHERE ID = ?";
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, id);
@@ -65,13 +60,12 @@ public class Order_itemImpl {
         }
         return false;
     }
-	//Tìm kiếm order_item theo id
 	public void find(int id) {
         // TODO Auto-generated method stub
-        String sql = "SELECT * FROM ORDER-ITEMS" ;
+        String sql = "SELECT * FROM ORDER_ITEMS WHERE ID = ?" ;
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
-            
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 int quantity = rs.getInt("quantity");
@@ -86,10 +80,9 @@ public class Order_itemImpl {
             e.printStackTrace();
         }
     }
-	//Lấy toàn bộ order_items
-	public void findAll() {
+	public void select() {
         // TODO Auto-generated method stub
-        String sql = "SELECT * FROM CATEGORIES" ;
+        String sql = "SELECT * FROM ORDER_ITEMS" ;
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
             
@@ -101,25 +94,6 @@ public class Order_itemImpl {
                 int orderId = rs.getInt("order_id");
                 int productId = rs.getInt("product_id");
                 
-                System.out.format("%d:%d:%.2f:%d:%d", id, quantity, price, orderId, productId).println();
-            }
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-	//Tìm kiếm theo order
-	public void findByOder(int orderId) {
-        String sql = "SELECT * FROM ORDER_ITEMS WHERE order_id = ?";
-        try {
-            stmt.setInt(1, orderId);
-
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                int quantity = rs.getInt("quantity");
-                double price = rs.getDouble("price");
-                int productId = rs.getInt("product_id");
                 System.out.format("%d:%d:%.2f:%d:%d", id, quantity, price, orderId, productId).println();
             }
         } catch (SQLException e) {
